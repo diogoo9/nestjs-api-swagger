@@ -1,0 +1,45 @@
+function isFibonacci(val) {
+  const sequence = [0, 1];
+  let num = val;
+
+  if (num < 0 || typeof (num) != "number") return false
+
+  while (num > sequence[sequence.length - 1]) {
+    sequence.push(sequence[sequence.length - 1] + sequence[sequence.length - 2])
+  }
+
+  if (sequence.findIndex((val) => val == num) !== -1) return true
+  return false
+}
+
+
+function reverterTexto(val = 'valor padrao') {
+  const size = val.length;
+  let newString = '';
+
+  for (let index = size - 1; index > 0; index--) {
+    newString = val.split('')[index] + newString;
+  }
+  return newString
+}
+
+function getData() {
+  const data = [{
+    UF: 'SP', value: 67836.43
+  },
+  {
+    UF: 'RJ', value: 36678.66
+  },
+  {
+    UF: 'MG', value: 29229.88
+  },
+  {
+    UF: 'ES', value: 27165.48
+  },
+  {
+    UF: 'Ou', value: 19849.53
+  }]
+  const sum = data.reduce((a, b) => a.value + b.value, 0)
+}
+
+
