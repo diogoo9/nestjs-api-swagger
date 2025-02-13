@@ -4,11 +4,11 @@ import { ProducerModule } from 'src/modules/producer/producer.module';
 import { ProducerRepository } from 'src/modules/producer/repository/producer.repository';
 import * as request from 'supertest';
 import { AppModule } from '../src/modules/app.module';
-import { ProducerInMemory } from './memory/producer';
+import { ProducerInMemoryRepository } from '../src/modules/producer/repository/producer.inmemory';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
-  let producerInMemory = new ProducerInMemory();
+  let producerInMemory = new ProducerInMemoryRepository();
   const producer = {
     doc_number: '94309220096',
     name: 'John',
@@ -83,7 +83,7 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .patch('/producer/' + producer.id)
       .send({ ...producer, name: 'jack' })
-      .expect(201)
+      .expect(200)
       .then((response) => {
         expect(response.body).toEqual({
           message: 'Produtor alterado com sucesso!',

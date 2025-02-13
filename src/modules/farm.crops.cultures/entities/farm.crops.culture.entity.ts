@@ -1,3 +1,4 @@
+import { Crop } from 'src/modules/crops/entities/crop.entity';
 import { Culture } from 'src/modules/cultures/entities/culture.entity';
 import { FarmCrop } from 'src/modules/farm.crops/entities/farm.crop.entity';
 import {
@@ -6,6 +7,8 @@ import {
   Entity,
   Index,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
@@ -27,13 +30,33 @@ export class FarmCropsCulture {
   @ManyToOne(
     (type) => FarmCrop,
     (farmCrop) => {
-      farmCrop.crops_id, farmCrop.farm_id;
+      farmCrop.farmCropsCulture;
     },
   )
-  @JoinColumn([{ name: 'farm_id' }, { name: 'crops_id' }])
+  @JoinColumn([
+    { name: 'farm_id', referencedColumnName: 'farm_id' },
+    { name: 'crops_id', referencedColumnName: 'crops_id' },
+  ])
   farmCrop?: FarmCrop;
 
   @ManyToOne((type) => Culture, (culture) => culture.id)
   @JoinColumn({ name: 'culture_id' })
-  cultura?: Culture;
+  culture?: Culture;
+
+  @ManyToMany(
+    () => Crop,
+    (crop) => crop.farmCropsCultures, //optional
+  )
+  @JoinTable({
+    name: 'farm_crops',
+    joinColumn: {
+      name: 'crops_id',
+      referencedColumnName: 'crops_id',
+    },
+    inverseJoinColumn: {
+      name: 'crops_id',
+      referencedColumnName: 'id',
+    },
+  })
+  crops?: Crop[];
 }

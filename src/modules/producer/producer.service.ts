@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AppError } from 'src/errors/AppError';
+import { City } from '../cities/entities/city.entity';
+
 import { CreateProducerDto } from './dto/create.producer.dto';
 import { UpdateProducerDto } from './dto/update.producer.dto';
 import { ProducerRepository } from './repository/producer.repository';
@@ -23,6 +25,26 @@ export class ProducerService {
   }
 
   findAll() {
+    return this.producerRepository
+      .createQueryBuilder('producers')
+      .leftJoinAndSelect('producers.farms', 'farms')
+      .leftJoinAndSelect('farms.city', 'city')
+      .leftJoinAndSelect('city.state', 'state')
+      .leftJoinAndSelect('farms.crops', 'crops')
+      .leftJoinAndSelect('crops.farmCrop', 'farmCrop')
+      .leftJoinAndSelect('farmCrop.farmCropsCulture', 'farmCropsCulture')
+      .leftJoinAndSelect('farmCropsCulture.culture', 'culture')
+      .select([
+        'producers',
+        'farms',
+        'crops',
+        'farmCrop',
+        'farmCropsCulture',
+        'culture',
+        'city',
+        'state',
+      ])
+      .getMany();
     return this.producerRepository.getAll();
   }
 

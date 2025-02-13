@@ -19,17 +19,20 @@ export class FarmService {
 
     const sumedArea = area_vegetation + area_arable;
 
-    if (sumedArea !== area_total)
+    if (sumedArea !== area_total) {
       throw new AppError(
         'a soma das áreas araveis e agrcultaveis não é igual a área total',
       );
-    if (!existProducer) throw new AppError('o Produtor não existe');
+    }
+    if (!existProducer) {
+      throw new AppError('o Produtor não existe');
+    }
 
     return this.farmRepository.createFarm(createFarmDto);
   }
 
   findByProducerId(id: string) {
-    return this.farmRepository.getById(id);
+    return this.farmRepository.getByProducerId(id);
   }
   async findAll() {
     const farms = await this.farmRepository.getAll();
@@ -42,7 +45,9 @@ export class FarmService {
 
   async update(id: string, updateFarmDto: UpdateFarmDto) {
     const farmExist = await this.farmRepository.getById(id);
-    if (!farmExist) throw new AppError('Propriedade não encontrada');
+    if (!farmExist) {
+      throw new AppError('Propriedade não encontrada');
+    }
     const affectedRows = (
       await this.farmRepository.updateFarm(id, updateFarmDto)
     ).affected;

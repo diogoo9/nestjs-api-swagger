@@ -11,8 +11,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()
-    .setTitle('Serasa interview')
-    .setDescription('The Serasa interview API description')
+    .setTitle('Brain Agriculture')
+    .setDescription('system of  manage producers ')
     .setVersion('1.0')
     .addBearerAuth(
       {

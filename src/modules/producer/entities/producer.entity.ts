@@ -23,7 +23,7 @@ export class Producer {
   deleted_at: string;
 
   @OneToMany(() => Farm, (farm) => farm.producer)
-  farm: Farm[];
+  farms?: Farm[];
 
   constructor() {
     if (!this.id) {

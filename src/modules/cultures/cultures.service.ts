@@ -13,8 +13,9 @@ export class CulturesService {
       createCultureDto.name,
     );
 
-    if (existCulture)
-      return new AppError('Falha, a Cultura já foi registrada anteriormente');
+    if (existCulture) {
+      throw new AppError('Falha, a Cultura já foi registrada anteriormente');
+    }
     return this.cultureRepository.createCulture(createCultureDto);
   }
 
@@ -28,7 +29,9 @@ export class CulturesService {
 
   async update(id: string, updateCultureDto: UpdateCultureDto) {
     const existCulture = await this.cultureRepository.getById(id);
-    if (!existCulture) return new AppError('Falha, a Cultura não existe');
+    if (!existCulture) {
+      throw new AppError('Falha, a Cultura não existe');
+    }
 
     const { affected } = await this.cultureRepository.updateCultures(
       id,
@@ -37,7 +40,12 @@ export class CulturesService {
     if (affected == 1) return { message: 'Cultura alterada com sucesso' };
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const existCulture = await this.cultureRepository.getById(id);
+    if (!existCulture) {
+      throw new AppError('Falha, a Cultura não existe');
+    }
+
     return this.cultureRepository.deleteCultures(id);
   }
 }

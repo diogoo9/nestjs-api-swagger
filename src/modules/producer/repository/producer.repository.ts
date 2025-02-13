@@ -30,9 +30,19 @@ export class ProducerRepository
     });
   }
 
-  getAll(): Promise<Producer[]> {
+  async getAll(): Promise<Producer[]> {
+    const a = await this.createQueryBuilder('producers')
+      .leftJoinAndSelect('farms', 'farms', 'producers.id = farms.producer_id')
+      .leftJoin('farm_crops', 'farm_crops', 'farms.id = farm_crops.farm_id ')
+      .select(['producers.id', 'farms.name'])
+      .getMany();
+
+    console.log(a);
+    return a;
+
     return this.find({
       where: { deleted_at: null },
+      relations: ['farms', 'farms.crops'],
     });
   }
 

@@ -14,7 +14,7 @@
     "prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"  --config ./.eslintrc.js --fix",
     "prettier": "npx prettier . --write",
-    "test": "jest --watch crops.service.spec.ts",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage ",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
@@ -77,6 +77,13 @@
     "typescript": "^5.6.3"
   },
   "jest": {
+    "coveragePathIgnorePatterns": [
+      "node_modules",
+      "test-config",
+      "src/database",
+      "src/config",
+      "dist"
+    ],
     "moduleFileExtensions": [
       "js",
       "json",
