@@ -30,11 +30,25 @@ export class ProducerRepository
     });
   }
 
-  async getAll(): Promise<Producer[]> {
+  async getAllWithRelations(): Promise<Producer[]> {
     const a = await this.createQueryBuilder('producers')
-      .leftJoinAndSelect('farms', 'farms', 'producers.id = farms.producer_id')
-      .leftJoin('farm_crops', 'farm_crops', 'farms.id = farm_crops.farm_id ')
-      .select(['producers.id', 'farms.name'])
+      .leftJoinAndSelect('producers.farms', 'farms')
+      .leftJoinAndSelect('farms.city', 'city')
+      .leftJoinAndSelect('city.state', 'state')
+      .leftJoinAndSelect('farms.crops', 'crops')
+      .leftJoinAndSelect('crops.farmCrop', 'farmCrop')
+      .leftJoinAndSelect('farmCrop.farmCropsCulture', 'farmCropsCulture')
+      .leftJoinAndSelect('farmCropsCulture.culture', 'culture')
+      .select([
+        'producers',
+        'farms',
+        'crops',
+        'farmCrop',
+        'farmCropsCulture',
+        'culture',
+        'city',
+        'state',
+      ])
       .getMany();
 
     console.log(a);

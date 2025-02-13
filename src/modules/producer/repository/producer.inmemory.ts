@@ -12,7 +12,7 @@ export class ProducerInMemoryRepository implements ProducerContractRepository {
     return Promise.resolve({ affected: 1 });
   }
 
-  getAll = (): Promise<Producer[]> => {
+  getAllWithRelations = (): Promise<Producer[]> => {
     return Promise.resolve(this.data);
   };
 

@@ -40,17 +40,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-- desenvolver
-
-- Criar o resource de producer
-
-  - endpoints de GET, POST, PATCH, DELETE
-  - POST - create
-  - PATH - edit
-  - GET - todos
-  - GET - by id
-  - GET - search by name
-  - DELETE - remove
-
-- validar CPF e CNPJ
